@@ -1,6 +1,5 @@
 const songLyricsArray = "Don't want to be a fool for you, Just another player in your game for two, You may hate me but it ain't no lie, Baby bye bye bye, Bye bye, I Don't want to make it tough, I just want to tell you that I've had enough, It might sound crazy but it ain't no lie, Baby bye bye bye".split(', ');
 
-
 // Initial Redux State
 const initialState = {
   songLyricsArray: songLyricsArray,
@@ -12,10 +11,13 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case 'NEXT_LYRIC':
       let newArrayPosition = state.arrayPosition + 1;
-      let newState = {
+      newState = {
         songLyricsArray: state.songLyricsArray,
         arrayPosition: newArrayPosition,
       }
+      return newState
+    case 'RESTART_SONG':
+      newState = initialState
       return newState
     default:
       return state
@@ -30,6 +32,13 @@ expect(reducer(initialState, { type: 'NEXT_LYRIC' })).toEqual({
   songLyricsArray: songLyricsArray,
   arrayPosition: 1
 })
+
+expect(reducer({
+    songLyricsArray: songLyricsArray,
+    arrayPosition: 1,
+  },
+  {type: 'RESTART_SONG'})
+).toEqual(initialState)
 
 // Redux store
 const { createStore } = Redux
@@ -46,15 +55,17 @@ const renderLyrics = () => {
   document.getElementById('lyrics').appendChild(renderedLine)
 }
 
+window.onload = () => {
+  renderLyrics()
+}
+
 // Click Listener
 const userClick = () => {
-  store.dispatch({ type: 'NEXT_LYRIC' })
-  console.log(store.getState())
+  const currentState = store.getState()
+  currentState.arrayPosition === currentState.songLyricsArray.length - 1
+  ? store.dispatch({ type: 'RESTART_SONG'})
+  : store.dispatch({ type: 'NEXT_LYRIC' })
 }
 
 // Subscribe to Redux store
 store.subscribe(renderLyrics)
-
-window.onload = () => {
-  renderLyrics()
-}
