@@ -14,13 +14,14 @@ describe('Karaoke App', () => {
       expect(lyricChangeReducer(initialState.songsById, { type: null })).toEqual(initialState.songsById)
     })
 
-    it('Should update currently-displayed lyric of song', () => {
-      expect(lyricChangeReducer(initialState.songsById, { type: 'NEXT_LYRIC', currentSongId: 2 })[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1)
+    it('Should update currently-displayed lyric of song.', () => {
+      expect(lyricChangeReducer(initialState.songsById, actions.nextLyric(2))[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1)
     })
 
-    it('Should restart song', () => {
-      expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', currentSongId: 1 })[1].arrayPosition).toEqual(0)
+    it('Should restart song.', () => {
+      expect(lyricChangeReducer(initialState.songsById, actions.restartSong(1))[1].arrayPosition).toEqual(0)
     })
+
   })
 
   describe('songChangeReducer', () => {
@@ -29,7 +30,7 @@ describe('Karaoke App', () => {
     })
 
     it('Should change selectedSong.', () => {
-      expect(songChangeReducer(initialState, { type: 'CHANGE_SONG', newSelectedSongId: 1 })).toEqual(1)
+      expect(songChangeReducer(initialState.currentSongId, actions.changeSong(2))).toEqual(2)
     })
   })
 
@@ -41,16 +42,6 @@ describe('Karaoke App', () => {
     it('Should contain logic from both reducers.', () => {
       expect(store.getState().currentSongId).toEqual(songChangeReducer(undefined, { type: null }))
       expect(store.getState().songsById).toEqual(lyricChangeReducer(undefined, { type: null }))
-    })
-  })
-
-  describe('actions', () => {
-    it('Should update currently-displayed lyric of song', () => {
-      expect(lyricChangeReducer(initialState.songsById, actions.nextLyric(2))[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1)
-    })
-
-    it('Should restart song', () => {
-      expect(lyricChangeReducer(initialState.songsById, actions.restartSong(1))[1].arrayPosition).toEqual(0)
     })
   })
   
