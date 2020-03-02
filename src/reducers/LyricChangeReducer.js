@@ -1,4 +1,4 @@
-import constants from './../constants'
+import constants from '../constants'
 const { initialState, types } = constants
 
 const lyricChangeReducer = (state = initialState.songsById, action) => {
