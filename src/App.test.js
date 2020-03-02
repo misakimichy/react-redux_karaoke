@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 import constants from "./constants"
 import songChangeReducer from './reducers/songChangeReducer'
 import lyricChangeReducer from './reducers/lyricChangeReducer'
-import { rootReducer } from './reducers/'
+import rootReducer from './reducers'
 
 describe('Karaoke App', () => {
   const { initialState, types } = constants
