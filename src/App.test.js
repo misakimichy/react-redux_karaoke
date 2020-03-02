@@ -3,6 +3,7 @@ import constants from "./constants"
 import songChangeReducer from './reducers/songChangeReducer'
 import lyricChangeReducer from './reducers/lyricChangeReducer'
 import rootReducer from './reducers'
+import * as actions from './actions'
 
 describe('Karaoke App', () => {
   const { initialState, types } = constants
@@ -43,4 +44,14 @@ describe('Karaoke App', () => {
     })
   })
 
+  describe('actions', () => {
+    it('Should update currently-displayed lyric of song', () => {
+      expect(lyricChangeReducer(initialState.songsById, actions.nextLyric(2))[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1)
+    })
+
+    it('Should restart song', () => {
+      expect(lyricChangeReducer(initialState.songsById, actions.restartSong(1))[1].arrayPosition).toEqual(0)
+    })
+  })
+  
 })
