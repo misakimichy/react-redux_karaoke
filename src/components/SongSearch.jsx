@@ -1,6 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { fetchSongId } from './../actions'
 
-const SongSearch = () => {
+const SongSearch = dispatch => {
   let input
   return (
     <div>
@@ -9,8 +12,9 @@ const SongSearch = () => {
         if (!input.value.trim()) {
           return
         }
-        console.log('SEARCHED TITLE:')
-        console.log(input.value.trim())
+        dispatch(fetchSongId(input.value.trim()))
+        console.log('SEARCHED TITLE:');
+        console.log(input.value.trim());
         input.value = ''
       }}>
         <input placeholder="Song Title" ref={node => {
@@ -22,4 +26,8 @@ const SongSearch = () => {
   )
 }
 
-export default SongSearch
+SongSearch.propTypes = {
+  dispatch: PropTypes.func
+}
+
+export default connect()(SongSearch)
